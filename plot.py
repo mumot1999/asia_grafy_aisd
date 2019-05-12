@@ -35,3 +35,11 @@ error_data(measurements['krawedz_sort_top_del'], 'Usuwanie')
 error_data(measurements['krawedz_sort_top_dfs'], 'DFS')
 error_plot('Sortowanie Topologiczne Listy krawędzi')
 
+error_data(measurements['macierz_sort_top_del'], 'Usuwanie')
+error_data(measurements['macierz_sort_top_dfs'], 'DFS')
+error_plot('Sortowanie Topologiczne Macierz')
+
+error_data(measurements['nastepnik_sort_top_del'], 'Usuwanie')
+error_data(measurements['nastepnik_sort_top_dfs'], 'DFS')
+error_plot('Sortowanie Topologiczne Lista Następników')
+

@@ -157,9 +157,6 @@ def run(liczba):
 
         #print("Macierz sasiedztwa posortowana DFS:")
 
-        for kl in listadfs:
-            'print(kl," - " ,b[kl])'
-
         timer_sort_topological_dfs.stop()
 
         return {

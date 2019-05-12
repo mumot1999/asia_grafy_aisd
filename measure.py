@@ -16,15 +16,15 @@ clear_measurements = lambda: {e: [] for e in elements}
 measurements = {}
 
 for name, function in functions.items():
-    measurements['{}_sort_top_del' % name] = clear_measurements(),
-    measurements['{}_sort_top_dfs' % name] = clear_measurements(),
+    measurements['{}_sort_top_del'.format(name)] = clear_measurements()
+    measurements['{}_sort_top_dfs'.format(name)] = clear_measurements()
 
 for name, function in functions.items():
     for e in elements:
         for _ in range(5):
-            pomiary = run_krawedz(e)
+            pomiary = function(e)
             while not pomiary:
-                pomiary = run_krawedz(e)
+                pomiary = function(e)
             measurements['{}_sort_top_del'.format(name)][e].append(pomiary['sort_top_del'])
             measurements['{}_sort_top_dfs'.format(name)][e].append(pomiary['sort_top_dfs'])
 
