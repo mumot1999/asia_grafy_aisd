@@ -31,7 +31,7 @@ def error_plot(title, xlabel='Liczba elementów', ylabel="Czas", y_scale=None):
 
 measurements = get_measurements('pomiary.json')
 
-error_data(measurements['sort_top_del'], 'Usuwanie')
-error_data(measurements['sort_top_dfs'], 'DFS')
-error_plot('Sortowanie Topologiczne')
+error_data(measurements['krawedz_sort_top_del'], 'Usuwanie')
+error_data(measurements['krawedz_sort_top_dfs'], 'DFS')
+error_plot('Sortowanie Topologiczne Listy krawędzi')
 

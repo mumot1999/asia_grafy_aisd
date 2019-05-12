@@ -112,92 +112,101 @@ class DEL_lkrawedzi:
 
 
 
+from helpers import Timer
 
-liczba = int(input("Ile wierzcholkow?"))
+def run(liczba):
+
+    v = liczba
+    wierzcholki = []
+    dell = DEL_lkrawedzi(v)
+    dfs = DFS_lkrawedz(v)
+    for i in range(liczba):
+        for z in range(liczba):
+            if z>i:
+                razem = str(i)+str(z)
+                w1 = int(i)
+                w2 = int(z)
+                dell.addEdge(w1,w2)
+                dfs.addEdge(w1,w2)
+                wierzcholki.append(razem)
 
 
-#print("v",v, "e", e)
-v = liczba
-wierzcholki = []
-dell = DEL_lkrawedzi(v)
-dfs = DFS_lkrawedz(v)
-for i in range(liczba):
-    for z in range(liczba):
-        if z>i:
-            razem = str(i)+str(z)
-            w1 = int(i)
-            w2 = int(z)
-            dell.addEdge(w1,w2)
-            dfs.addEdge(w1,w2)
-            wierzcholki.append(razem)
+    print("Sortowanie topologiczne przez usuwanie: ")
+
+    timer_sort_topological_del = Timer()
+    timer_sort_topological_del.start()
+
+    dell.topologicalSort_DEL()
+    klopsy = []
+    i = 0
+    wierzcholkidell= []
+    wierzcholkidfs =[]
+    #print(wierzcholki, "soema")
+    for znajdz in listadell:
+        for iins in wierzcholki:
+            if znajdz == int(iins[0]):
+                razem = iins[0]+iins[1:len(iins)]
+                wierzcholkidell.append(razem)
+
+    pusta =[]
+    opal = []
+    poprzedni = wierzcholkidell[0][0]
+    for znajdz in listadell:
+        for iins in wierzcholki:
+            if znajdz == int(iins[0]):
+                opal.append(iins[1])
+            else:
+                if opal:
+                    klopsy.append(opal)
+                opal = []
+    if len(klopsy) != len(listadell):
+        klopsy.append("['_']")
+    glob = 0
+    #print("Lista nastepnikow dla sortowania dell:")
+    '''for glop in listadell:
+        print("(", glop, ") -", klopsy[glob])
+        glob = glob +1
+    print("\n")'''
 
 
-print("Sortowanie topologiczne przez usuwanie: ")
-start = time.perf_counter()
-dell.topologicalSort_DEL()
-klopsy = []
-i = 0
-wierzcholkidell= []
-wierzcholkidfs =[]
-#print(wierzcholki, "soema")
-for znajdz in listadell:
-    for iins in wierzcholki:
-        if znajdz == int(iins[0]):
-            razem = iins[0]+iins[1:len(iins)]
-            wierzcholkidell.append(razem)
+    timer_sort_topological_del.stop()
 
-pusta =[]
-opal = []
-poprzedni = wierzcholkidell[0][0]
-for znajdz in listadell:
-    for iins in wierzcholki:
-        if znajdz == int(iins[0]):
-            opal.append(iins[1])
-        else:
-            if opal:
-                klopsy.append(opal)
-            opal = []
-if len(klopsy) != len(listadell):
+
+
+    print("Sortwanie topologiczne metoda dfs: ")
+
+    timer_sort_topological_dfs = Timer()
+    timer_sort_topological_dfs.start()
+
+    dfs.topologicalSort_DFS()
+
+    for znajdz in listadfs:
+        for iins in wierzcholki:
+            if znajdz == int(iins[0]):
+                razem = iins[0]+iins[1]
+                wierzcholkidfs.append(razem)
+    klopsy = []
+    pusta =[]
+    opal = []
+    poprzedni = wierzcholkidell[0][0]
+    for znajdz in listadfs:
+        for iins in wierzcholki:
+            if znajdz == int(iins[0]):
+                opal.append(iins[1])
+            else:
+                if opal:
+                    klopsy.append(opal)
+                opal = []
     klopsy.append("['_']")
-glob = 0
-#print("Lista nastepnikow dla sortowania dell:")
-'''for glop in listadell:
-    print("(", glop, ") -", klopsy[glob])
-    glob = glob +1
-print("\n")'''
-end = time.perf_counter()
-print(end-start)
+    glob = 0
+    #print("Lista nastepnikow dla sortowania dfs:")
+    '''for glop in listadfs:
+        print("(", glop, ") -", klopsy[glob])
+        glob = glob + 1'''
 
+    timer_sort_topological_dfs.stop()
 
-
-
-
-print("Sortwanie topologiczne metoda dfs: ")
-start = time.perf_counter()
-dfs.topologicalSort_DFS()
-
-for znajdz in listadfs:
-    for iins in wierzcholki:
-        if znajdz == int(iins[0]):
-            razem = iins[0]+iins[1]
-            wierzcholkidfs.append(razem)
-klopsy = []
-pusta =[]
-opal = []
-poprzedni = wierzcholkidell[0][0]
-for znajdz in listadfs:
-    for iins in wierzcholki:
-        if znajdz == int(iins[0]):
-            opal.append(iins[1])
-        else:
-            if opal:
-                klopsy.append(opal)
-            opal = []
-klopsy.append("['_']")
-glob = 0
-#print("Lista nastepnikow dla sortowania dfs:")
-'''for glop in listadfs:
-    print("(", glop, ") -", klopsy[glob])
-    glob = glob + 1'''
-end = time.perf_counter()
-print(end-start)
+    return {
+        'sort_top_del': timer_sort_topological_del.get_mean_time(),
+        'sort_top_dfs': timer_sort_topological_dfs.get_mean_time()
+    }

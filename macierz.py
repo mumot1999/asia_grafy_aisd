@@ -112,54 +112,62 @@ class DEL_lkrawedzi:
 
 
 
+from helpers import Timer
+
+def run(liczba):
+
+    v = liczba
+    wierzcholki = []
+    b= [[0]*v for _ in range(v)]
+    dell = DEL_lkrawedzi(v)
+    dfs = DFS_lkrawedz(v)
+    for i in range(liczba):
+        for z in range(liczba):
+            if z>i:
+                razem = str(i)+str(z)
+                w1 = int(i)
+                w2 = int(z)
+                dell.addEdge(w1,w2)
+                dfs.addEdge(w1,w2)
+                b[w1][w2] = 1
+                wierzcholki.append(razem)
 
 
+    print("Sortowanie topologiczne przez usuwanie: ")
 
+    timer_sort_topological_del = Timer()
+    timer_sort_topological_del.start()
 
-liczba = int(input("Ile wierzcholkow?"))
+    dell.topologicalSort_DEL()
 
+    #print("Macierz sasiedztwa posortowana DELL:")
 
-#print("v",v, "e", e)
-v = liczba
-wierzcholki = []
-b= [[0]*v for _ in range(v)]
-dell = DEL_lkrawedzi(v)
-dfs = DFS_lkrawedz(v)
-for i in range(liczba):
-    for z in range(liczba):
-        if z>i:
-            razem = str(i)+str(z)
-            w1 = int(i)
-            w2 = int(z)
-            dell.addEdge(w1,w2)
-            dfs.addEdge(w1,w2)
-            b[w1][w2] = 1
-            wierzcholki.append(razem)
-
-
-print("Sortowanie topologiczne przez usuwanie: ")
-start = time.perf_counter()
-dell.topologicalSort_DEL()
-
-#print("Macierz sasiedztwa posortowana DELL:")
-
-for kl in listadell:
-    'print(kl," - " ,b[kl])'
-end = time.perf_counter()
-print(end-start)
-if S == False:
-
-    print("\n")
-    print("Sortowanie topologiczne metoda DFS: ")
-    start = time.perf_counter()
-    dfs.topologicalSort_DFS()
-
-    #print("Macierz sasiedztwa posortowana DFS:")
-
-    for kl in listadfs:
+    for kl in listadell:
         'print(kl," - " ,b[kl])'
-end = time.perf_counter()
-print(end-start)
 
+    timer_sort_topological_del.stop()
+
+    if S == False:
+
+        print("\n")
+        print("Sortowanie topologiczne metoda DFS: ")
+
+        timer_sort_topological_dfs = Timer()
+        timer_sort_topological_dfs.start()
+
+        #print("Macierz sasiedztwa posortowana DFS:")
+
+        for kl in listadfs:
+            'print(kl," - " ,b[kl])'
+
+        timer_sort_topological_dfs.stop()
+
+        return {
+            'sort_top_del': timer_sort_topological_del.get_mean_time(),
+            'sort_top_dfs': timer_sort_topological_dfs.get_mean_time()
+        }
+
+    else:
+        return False
 
 

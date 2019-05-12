@@ -1,23 +1,33 @@
-from krawedz import run
+from krawedz import run as run_krawedz
+from macierz import run as run_macierz
+from nastepnik import run as run_nastepniki
 from helpers import save_measurements
 
 elements = [n*10 for n in range(1,11)]
 
-clear_measurements = lambda: {e: [] for e in elements}
 
-measurements = {
-    'sort_top': clear_measurements(),
-    'sort_top_dfs': clear_measurements(),
+functions = {
+    "krawedz": run_krawedz,
+    "macierz": run_macierz,
+    "nastepnik": run_nastepniki
+
 }
+clear_measurements = lambda: {e: [] for e in elements}
+measurements = {}
 
-for e in elements:
-    for _ in range(5):
-        pomiary = run(e)
-        while not pomiary:
-            pomiary = run(e)
-        measurements['sort_top_del'][e].append(pomiary['sort_top_del'])
-        measurements['sort_top_dfs'][e].append(pomiary['sort_top_dfs'])
+for name, function in functions.items():
+    measurements['{}_sort_top_del' % name] = clear_measurements(),
+    measurements['{}_sort_top_dfs' % name] = clear_measurements(),
 
-save_measurements('sort_top', measurements['sort_top'])
-save_measurements('sort_top_dfs', measurements['sort_top_dfs'])
+for name, function in functions.items():
+    for e in elements:
+        for _ in range(5):
+            pomiary = run_krawedz(e)
+            while not pomiary:
+                pomiary = run_krawedz(e)
+            measurements['{}_sort_top_del'.format(name)][e].append(pomiary['sort_top_del'])
+            measurements['{}_sort_top_dfs'.format(name)][e].append(pomiary['sort_top_dfs'])
+
+for m in measurements:
+    save_measurements(m, measurements[m])
 
