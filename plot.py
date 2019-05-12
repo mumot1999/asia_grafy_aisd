@@ -9,9 +9,6 @@ def error_data(measurements, label=''):
     x = measurements.keys()
     y = list(map(lambda x: statistics.mean(x), measurements.values()))
     e = list(map(lambda x: np.std(x), measurements.values()))
-    datas = list(zip(x,y,e))
-
-    save_measurements(label, datas, 'dane.txt')
     plt.errorbar(x, y, e, solid_capstyle='projecting', capsize=5, linestyle='-', fmt='o', label=label)
 
 
@@ -42,4 +39,15 @@ error_plot('Sortowanie Topologiczne Macierz')
 error_data(measurements['nastepnik_sort_top_del'], 'Usuwanie')
 error_data(measurements['nastepnik_sort_top_dfs'], 'DFS')
 error_plot('Sortowanie Topologiczne Lista Następników')
+
+
+error_data(measurements['krawedz_sort_top_dfs'], 'Krawędź')
+error_data(measurements['macierz_sort_top_dfs'], 'Macierz')
+error_data(measurements['nastepnik_sort_top_dfs'], 'Następniki')
+error_plot('Sortowanie Topologiczne DFS')
+
+error_data(measurements['krawedz_sort_top_del'], 'Krawędź')
+error_data(measurements['macierz_sort_top_del'], 'Macierz')
+error_data(measurements['nastepnik_sort_top_del'], 'Następniki')
+error_plot('Sortowanie Topologiczne przez usuwanie')
 

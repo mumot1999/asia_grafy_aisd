@@ -156,7 +156,7 @@ def run(liczba):
         timer_sort_topological_dfs.start()
 
         #print("Macierz sasiedztwa posortowana DFS:")
-
+        dfs.topologicalSort_DFS()
         timer_sort_topological_dfs.stop()
 
         return {
